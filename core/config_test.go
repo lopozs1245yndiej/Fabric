@@ -1,0 +1,69 @@
+package core
+
+import (
+	"os"
+	"testing"
+)
+
+func TestDefaultConfig(t *testing.T) {
+	cfg := DefaultConfig()
+
+	if cfg.OllamaURL != "http://localhost:11434" {
+		t.Errorf("expected default OllamaURL to be http://localhost:11434, got %s", cfg.OllamaURL)
+	}
+	if cfg.DefaultModel != "gpt-4o" {
+		t.Errorf("expected default model to be gpt-4o, got %s", cfg.DefaultModel)
+	}
+	if cfg.PatternsDir == "" {
+		t.Error("expected PatternsDir to be set")
+	}
+}
+
+func TestLoadConfigFromEnv(t *testing.T) {
+	t.Setenv("OPENAI_API_KEY", "test-openai-key")
+	t.Setenv("DEFAULT_MODEL", "gpt-3.5-turbo")
+	t.Setenv("OLLAMA_URL", "http://myhost:11434")
+
+	cfg, err := LoadConfig()
+	if err != nil {
+		t.Fatalf("unexpected error loading config: %v", err)
+	}
+
+	if cfg.OpenAIAPIKey != "test-openai-key" {
+		t.Errorf("expected OpenAIAPIKey to be test-openai-key, got %s", cfg.OpenAIAPIKey)
+	}
+	if cfg.DefaultModel != "gpt-3.5-turbo" {
+		t.Errorf("expected DefaultModel to be gpt-3.5-turbo, got %s", cfg.DefaultModel)
+	}
+	if cfg.OllamaURL != "http://myhost:11434" {
+		t.Errorf("expected OllamaURL to be http://myhost:11434, got %s", cfg.OllamaURL)
+	}
+}
+
+func TestValidateNoProvider(t *testing.T) {
+	cfg := &Config{}
+	if err := cfg.Validate(); err != ErrNoProviderConfigured {
+		t.Errorf("expected ErrNoProviderConfigured, got %v", err)
+	}
+}
+
+func TestValidateWithProvider(t *testing.T) {
+	cfg := &Config{OpenAIAPIKey: "sk-abc"}
+	if err := cfg.Validate(); err != nil {
+		t.Errorf("expected no error, got %v", err)
+	}
+}
+
+func TestLoadConfigDefaults(t *testing.T) {
+	// Unset keys to test defaults
+	os.Unsetenv("OPENAI_API_KEY")
+	os.Unsetenv("DEFAULT_MODEL")
+
+	cfg, err := LoadConfig()
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if cfg.DefaultModel != "gpt-4o" {
+		t.Errorf("expected default model gpt-4o, got %s", cfg.DefaultModel)
+	}
+}
