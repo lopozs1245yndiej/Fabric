@@ -10,4 +10,6 @@ var (
 	ErrInvalidModel         = errors.New("invalid or unsupported model")
 	// ErrContextTooLong is returned when the input exceeds the model's context window
 	ErrContextTooLong = errors.New("input exceeds model context window limit")
+	// ErrSessionNotFound is returned when a named session cannot be located
+	ErrSessionNotFound = errors.New("session not found")
 )
