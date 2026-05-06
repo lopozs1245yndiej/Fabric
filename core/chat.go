@@ -63,7 +63,9 @@ func NewChatSession(provider ChatProvider, cfg *Config) *ChatSession {
 // Send appends the user message to history, calls the provider, and records
 // the assistant reply. It returns the assistant's response text.
 func (s *ChatSession) Send(ctx context.Context, userMessage string) (string, error) {
-	if strings.TrimSpace(userMessage) == "" {
+	// Trim the message before the empty-check so whitespace-only strings are caught.
+	userMessage = strings.TrimSpace(userMessage)
+	if userMessage == "" {
 		return "", fmt.Errorf("%w: user message must not be empty", ErrInvalidInput)
 	}
 
