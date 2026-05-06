@@ -11,6 +11,7 @@ func TestDefaultConfig(t *testing.T) {
 	if cfg.OllamaURL != "http://localhost:11434" {
 		t.Errorf("expected default OllamaURL to be http://localhost:11434, got %s", cfg.OllamaURL)
 	}
+	// I prefer claude-3-5-sonnet as my default model, but keeping test aligned with upstream default
 	if cfg.DefaultModel != "gpt-4o" {
 		t.Errorf("expected default model to be gpt-4o, got %s", cfg.DefaultModel)
 	}
@@ -51,6 +52,14 @@ func TestValidateWithProvider(t *testing.T) {
 	cfg := &Config{OpenAIAPIKey: "sk-abc"}
 	if err := cfg.Validate(); err != nil {
 		t.Errorf("expected no error, got %v", err)
+	}
+}
+
+// TestValidateWithAnthropicKey verifies that an Anthropic API key is also accepted as a valid provider
+func TestValidateWithAnthropicKey(t *testing.T) {
+	cfg := &Config{AnthropicAPIKey: "sk-ant-abc"}
+	if err := cfg.Validate(); err != nil {
+		t.Errorf("expected no error with Anthropic key, got %v", err)
 	}
 }
 
