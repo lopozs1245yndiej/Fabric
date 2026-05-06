@@ -8,4 +8,6 @@ var (
 	ErrPatternNotFound      = errors.New("pattern not found")
 	ErrEmptyInput           = errors.New("input cannot be empty")
 	ErrInvalidModel         = errors.New("invalid or unsupported model")
+	// ErrContextTooLong is returned when the input exceeds the model's context window
+	ErrContextTooLong = errors.New("input exceeds model context window limit")
 )
