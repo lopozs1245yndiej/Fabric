@@ -21,10 +21,10 @@ type Config struct {
 func DefaultConfig() *Config {
 	homeDir, _ := os.UserHomeDir()
 	return &Config{
-		OllamaURL:   "http://localhost:11434",
-		DefaultModel: "gpt-4o",
-		PatternsDir: filepath.Join(homeDir, ".config", "fabric", "patterns"),
-		OutputDir:   filepath.Join(homeDir, ".config", "fabric", "output"),
+		OllamaURL:    "http://localhost:11434",
+		DefaultModel: "gpt-4o-mini", // prefer mini by default — cheaper and fast enough for most tasks
+		PatternsDir:  filepath.Join(homeDir, ".config", "fabric", "patterns"),
+		OutputDir:    filepath.Join(homeDir, ".config", "fabric", "output"),
 	}
 }
 
