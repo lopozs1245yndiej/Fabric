@@ -63,6 +63,15 @@ func TestValidateWithAnthropicKey(t *testing.T) {
 	}
 }
 
+// TestValidateWithOllamaURL verifies that a configured Ollama URL alone is sufficient as a provider.
+// Useful for fully local setups without any cloud API keys.
+func TestValidateWithOllamaURL(t *testing.T) {
+	cfg := &Config{OllamaURL: "http://localhost:11434"}
+	if err := cfg.Validate(); err != nil {
+		t.Errorf("expected no error with OllamaURL set, got %v", err)
+	}
+}
+
 func TestLoadConfigDefaults(t *testing.T) {
 	// Unset keys to test defaults
 	os.Unsetenv("OPENAI_API_KEY")
