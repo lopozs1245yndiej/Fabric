@@ -72,6 +72,15 @@ func TestValidateWithOllamaURL(t *testing.T) {
 	}
 }
 
+// TestValidateWithCustomOllamaURL verifies that a non-default Ollama host is also accepted.
+// I run Ollama on a separate machine on my LAN, so this matters for my setup.
+func TestValidateWithCustomOllamaURL(t *testing.T) {
+	cfg := &Config{OllamaURL: "http://192.168.1.50:11434"}
+	if err := cfg.Validate(); err != nil {
+		t.Errorf("expected no error with custom OllamaURL, got %v", err)
+	}
+}
+
 func TestLoadConfigDefaults(t *testing.T) {
 	// Unset keys to test defaults
 	os.Unsetenv("OPENAI_API_KEY")
