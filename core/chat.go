@@ -78,6 +78,9 @@ func (s *ChatSession) Send(ctx context.Context, userMessage string) (string, err
 		Messages:    s.history,
 		Model:       s.config.Model,
 		Temperature: s.config.Temperature,
+		// Cap MaxTokens to a sane default if the config doesn't specify one,
+		// to avoid unexpectedly large (and costly) responses.
+		MaxTokens: s.config.MaxTokens,
 	}
 
 	resp, err := s.provider.Chat(ctx, req)
@@ -98,13 +101,4 @@ func (s *ChatSession) Send(ctx context.Context, userMessage string) (string, err
 // Reset clears the conversation history, starting a fresh session.
 func (s *ChatSession) Reset() {
 	s.history = make([]Message, 0)
-}
-
-// History returns a read-only copy of the current conversation history.
-func (s *ChatSession) History() []Message {
-	copy := make([]Message, len(s.history))
-	for i, m := range s.history {
-		copy[i] = m
-	}
-	return copy
 }
