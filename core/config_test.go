@@ -94,3 +94,12 @@ func TestLoadConfigDefaults(t *testing.T) {
 		t.Errorf("expected default model gpt-4o, got %s", cfg.DefaultModel)
 	}
 }
+
+// TestValidateWithGeminiKey verifies that a Google Gemini API key is accepted as a valid provider.
+// Added because I've been experimenting with Gemini and want to ensure it's supported.
+func TestValidateWithGeminiKey(t *testing.T) {
+	cfg := &Config{GeminiAPIKey: "AIza-test-key"}
+	if err := cfg.Validate(); err != nil {
+		t.Errorf("expected no error with GeminiAPIKey set, got %v", err)
+	}
+}
