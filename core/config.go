@@ -24,7 +24,7 @@ func DefaultConfig() *Config {
 		OllamaURL:    "http://localhost:11434",
 		DefaultModel: "gpt-4o", // personal preference: full 4o for better quality; cost is acceptable for my usage
 		PatternsDir:  filepath.Join(homeDir, ".config", "fabric", "patterns"),
-		OutputDir:    filepath.Join(homeDir, ".config", "fabric", "output"),
+		OutputDir:    filepath.Join(homeDir, "Documents", "fabric-output"), // prefer ~/Documents for easier access
 	}
 }
 
