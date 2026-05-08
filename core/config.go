@@ -22,7 +22,7 @@ func DefaultConfig() *Config {
 	homeDir, _ := os.UserHomeDir()
 	return &Config{
 		OllamaURL:    "http://localhost:11434",
-		DefaultModel: "gpt-4o-mini", // prefer mini by default — cheaper and fast enough for most tasks
+		DefaultModel: "gpt-4o", // personal preference: full 4o for better quality; cost is acceptable for my usage
 		PatternsDir:  filepath.Join(homeDir, ".config", "fabric", "patterns"),
 		OutputDir:    filepath.Join(homeDir, ".config", "fabric", "output"),
 	}
